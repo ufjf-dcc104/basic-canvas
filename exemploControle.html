@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Exemplo Animaçao com Controle</title>
+	</head>
+	<body>
+		<h1>Exemplo Animaçao com Controle</h1>
+		<canvas width="400" height="300">
+			Seu navegador nao tem suporte ao canvas!
+		</canvas>
+
+		<script>
+			var tela = document.getElementsByTagName("canvas")[0];
+			var ctx = tela.getContext("2d");
+
+			var fps = 60;
+			var g = 60;
+			var y = 130, vy = 0, ay = 0;
+			var x = 130, vx = 0, ax = 0;
+			var dt = 1/fps;
+			var alvoY = 150;
+			var alvoX = 150;
+
+			addEventListener("keydown", teclaPressionada);
+			addEventListener("keyup", teclaSolta);
+
+			setInterval(desenhar, 1000/fps);
+			function desenhar(){
+				//ax = (alvoX-x)/2 - vx/2;
+				vx = vx + ax*dt;
+				x = x + vx*dt;
+
+				//ay = (alvoY-y)/2  - vy/2;
+				vy = vy + ay*dt+g*dt;
+				y = y + vy*dt;
+
+				/*
+				if((y > 150 && ay >0) || (y <50 && ay<0)){
+					ay = -ay;
+				}
+				*/
+				if(y > 150){
+					y = 150;
+					vy = 0;
+
+				}
+
+				ctx.clearRect(0,0, 400, 300);	
+
+				ctx.strokeStyle = "black";
+				ctx.fillStyle = "rgb(250, 150, 150)";
+				ctx.beginPath();
+				ctx.moveTo(x, 30+y);
+				ctx.lineTo(20+x, 30+y);
+				ctx.lineTo(10+x,    y);
+				ctx.closePath();
+				ctx.fill();
+				ctx.stroke();
+
+			}
+
+			function teclaPressionada(e){
+				console.log("Tecla: "+e.keyCode);
+				if(e.keyCode==39){
+					ax = 60;
+				}else if(e.keyCode==37){
+					ax = -60;
+				}
+				if(e.keyCode==40){
+					ay = 30;
+				}else if(e.keyCode==38){
+					ay = -30;
+				}
+				if(e.keyCode==32){
+					vy = -60;
+				}
+			}
+			function teclaSolta(e){
+				console.log("Tecla: "+e.keyCode);
+				if(e.keyCode==39){
+					ax = 0;
+				}else if(e.keyCode==37){
+					ax = 0;
+				}
+				if(e.keyCode==40){
+					ay = 0;
+				}else if(e.keyCode==38){
+					ay = 0;
+				}
+			}
+		</script>
+	</body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+

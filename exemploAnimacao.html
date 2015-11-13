@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Exemplo Animaçao</title>
+	</head>
+	<body>
+		<h1>Exemplo Animaçao</h1>
+		<canvas width="400" height="300">
+			Seu navegador nao tem suporte ao canvas!
+		</canvas>
+
+		<script>
+			var tela = document.getElementsByTagName("canvas")[0];
+			var ctx = tela.getContext("2d");
+
+			var fps = 60;
+			var g = 60;
+			var y = 30, vy = 0, ay = 0;
+			var x = 130, vx = 0, ax = 0;
+			var dt = 1/fps;
+
+			setInterval(desenhar, 1000/fps);
+			function desenhar(){
+				vx = vx + ax*dt;
+				x = x + vx*dt;
+
+				vy = vy + ay*dt+g*dt;
+				y = y + vy*dt;
+
+				if((y > 150)){
+					vy = -vy;
+				}
+
+				ctx.clearRect(0,0, 400, 300);	
+
+				ctx.strokeStyle = "black";
+				ctx.fillStyle = "rgb(250, 150, 150)";
+				ctx.beginPath();
+				ctx.moveTo(x, 30+y);
+				ctx.lineTo(20+x, 30+y);
+				ctx.lineTo(10+x,    y);
+				ctx.closePath();
+				ctx.fill();
+				ctx.stroke();
+
+			}
+
+		</script>
+	</body>
+</html> 

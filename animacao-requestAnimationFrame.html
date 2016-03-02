@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pause</title>
+</head>
+<body>
+<canvas></canvas>
+<script>
+	var tela = document.getElementsByTagName("canvas")[0];
+	tela.width = 500;
+	tela.height = 500;
+	var ctx = tela.getContext("2d");
+	var pause = false;
+	var ang = 0;
+	var id = window.requestAnimationFrame(passo);
+	var atual = new Date();
+	var anterior = atual;
+	var dt = null;
+	function passo() {
+		atual = new Date();
+		dt = Math.max(16, atual - anterior); //max 60 fps
+		ctx.fillStyle = "black";
+		ctx.fillRect(0,0, tela.width, tela.height);
+		ctx.fillStyle = "white";
+		ctx.save();
+		ctx.translate(225, 255);
+		ctx.rotate(ang*Math.PI/360);
+		ang += 0.1*dt;
+		ctx.fillRect(-50,-50, 100, 100);
+		ctx.fillStyle = "blue";
+		ctx.fillRect(0,0, 50, 50);
+		ctx.restore();
+		anterior = atual;
+		id = requestAnimationFrame(passo);
+	}
+
+	function alternaPause(e){
+
+		if(id!==null){
+			console.log("Pause!");
+			cancelAnimationFrame(id);
+			id = null;
+		}else{
+			console.log("Ação!");
+			atual = new Date();
+			anterior = atual;
+			id  = requestAnimationFrame(passo);
+		}
+	}
+
+	tela.addEventListener("click", alternaPause);
+
+</script>
+</body>
+</html>
